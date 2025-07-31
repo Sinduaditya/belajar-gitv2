@@ -1,93 +1,112 @@
-# Catatan Singkat Git (Git Cheatsheet) untuk Belajar
+# Catatan Singkat Git & GitHub (Cheatsheet)
 
-Dokumen ini berisi rangkuman perintah dan konsep penting Git yang telah kita diskusikan, dirancang untuk menjadi referensi cepat.
+Dokumen ini berisi rangkuman perintah dan konsep penting Git & GitHub yang telah kita diskusikan, dirancang untuk menjadi referensi cepat.
 
 ---
 
-## Konsep Dasar
-Konsep fundamental yang menjadi dasar cara kerja Git.
+## 1. Konsep Dasar
+Konsep fundamental yang menjadi dasar cara kerja Git dan kolaborasi.
 
 ### Git vs VCS Lain (Distributed vs Centralized)
-* **Git (Distributed/Terdistribusi)**: Setiap developer memiliki salinan repositori yang lengkap. Operasi seperti `commit` dan `branch` dilakukan secara lokal dan cepat. Tidak ada *single point of failure*.
-* **VCS Lain (Centralized/Terpusat)**: Ada satu server pusat. Developer harus terhubung ke server untuk melakukan hampir semua operasi. Alur kerjanya cenderung linear.
+* **Git (Distributed)**: Setiap developer memiliki salinan repositori lengkap. Operasi dilakukan secara lokal dan cepat.
+* **VCS Lain (Centralized)**: Ada satu server pusat. Membutuhkan koneksi untuk hampir semua operasi.
 
 ### Konsep 3 Pohon (The Three Trees)
-Git memisahkan pekerjaan Anda ke dalam tiga "area" utama:
-1.  **Working Directory**: Folder tempat Anda bekerja dan mengubah file secara langsung.
-2.  **Staging Area (Index)**: Area persiapan tempat Anda mendaftarkan perubahan yang ingin Anda simpan di *commit* selanjutnya (menggunakan `git add`).
-3.  **Repository (.git)**: "Brankas" tempat Git menyimpan semua riwayat *commit* Anda secara permanen (menggunakan `git commit`).
+1.  **Working Directory**: Folder tempat Anda bekerja dan mengubah file.
+2.  **Staging Area (Index)**: Area persiapan untuk mendaftarkan perubahan yang akan di-*commit* (via `git add`).
+3.  **Repository (.git)**: "Brankas" tempat riwayat *commit* disimpan permanen (via `git commit`).
+
+### Perbedaan Forking vs. Cloning
+| Kriteria | Fork (di GitHub) | Clone (`git clone`) |
+| :--- | :--- | :--- |
+| **Lokasi Salinan** | Di server GitHub, ke akun Anda. | Dari server ke komputer lokal Anda. |
+| **Kepemilikan** | Anda menjadi pemilik salinan. | Anda tidak menjadi pemilik. |
+| **Tujuan Utama** | Kontribusi ke proyek orang lain (*open source*). | Bekerja pada proyek yang Anda miliki aksesnya. |
 
 ---
 
-## Alur Kerja Dasar Sehari-hari
-Perintah yang menjadi tulang punggung penggunaan Git.
+## 2. Alur Kerja Dasar
+Perintah yang menjadi tulang punggung aktivitas harian.
 
 | Perintah | Penjelasan |
 | :--- | :--- |
-| `git status` | Menampilkan status *Working Directory* dan *Staging Area*. Perintah terpenting untuk mengetahui apa yang sedang terjadi. |
-| `git add <file>` | Menambahkan perubahan file ke *Staging Area*. Gunakan `git add .` untuk menambahkan semua perubahan. |
-| `git commit -m "Pesan"` | Menyimpan *snapshot* dari *Staging Area* secara permanen ke *Repository*. |
-| `git log` | [cite_start]Menampilkan riwayat *commit* dari yang terbaru hingga terlama. [cite: 1] |
+| `git status` | Menampilkan status *Working Directory* dan *Staging Area*. |
+| `git add <file>` | Menambahkan perubahan ke *Staging Area*. `git add .` untuk semua. |
+| `git commit -m "Pesan"` | Menyimpan *snapshot* dari *Staging Area* ke *Repository*. |
+| `git log` | Menampilkan riwayat *commit*. |
+
+### Tips Menulis Pesan Commit
+* **Gunakan Format**: `<tipe>: <subjek>`. Contoh: `feat: Tambah tombol login`. Tipe umum: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`.
+* **Gunakan Kalimat Perintah**: "Tambah", "Perbaiki", "Hapus" (bukan "Menambahkan", "Diperbaiki").
+* **Jelaskan "Mengapa"**: Jika perlu, gunakan *body* (setelah baris kosong) untuk menjelaskan konteks perubahan.
 
 ---
 
-## Bekerja dengan Branch
-Mengelola berbagai lini pengembangan secara paralel.
+## 3. Branching & Merging
+Mengelola berbagai lini pengembangan.
 
 | Perintah | Penjelasan |
 | :--- | :--- |
 | `git branch <nama>` | Membuat *branch* baru. |
 | `git checkout <nama>` | Berpindah ke *branch* lain. |
-| `git merge <nama>` | Menggabungkan riwayat dari `<nama>` ke *branch* Anda saat ini. |
+| `git merge <nama>` | Menggabungkan riwayat dari `<nama>` ke *branch* saat ini. |
+
+### Tipe Merge
+* **Fast-Forward**: Terjadi jika *branch* utama tidak berubah. Riwayat tetap lurus.
+* **Non-Fast-Forward (Merge Commit)**: Terjadi jika *branch* utama sudah berubah. Membuat *commit* baru yang menandakan adanya penggabungan.
 
 ### Penanganan Merge Conflict
-Terjadi saat Git tidak bisa menggabungkan perubahan secara otomatis.
-1.  Jalankan `git status` untuk melihat file yang konflik.
-2.  Buka file tersebut, hapus penanda `<<<<<<<`, `=======`, `>>>>>>>`, dan sisakan hanya kode akhir yang Anda inginkan.
-3.  Jalankan `git add <file>` untuk menandai konflik telah selesai.
-4.  Jalankan `git commit` untuk menyelesaikan proses *merge*.
+1.  `git status` untuk melihat file yang konflik.
+2.  Buka file, hapus penanda `<<<`, `===`, `>>>`, dan sisakan kode yang benar.
+3.  `git add <file>` untuk menandai konflik selesai.
+4.  `git commit` untuk menyelesaikan *merge*.
 
 ---
 
-## Bekerja dengan Remote (GitHub, dll.)
-Berinteraksi dan berkolaborasi dengan repositori di server.
+## 4. Mengubah Riwayat (History Rewriting)
+⚠️ **Peringatan**: Jangan gunakan perintah di bawah ini pada *commit* yang sudah di-*push* dan dibagikan ke tim!
+
+### Memperbaiki Commit Terakhir (`--amend`)
+* **Tujuan**: Menambah atau memperbaiki perubahan pada *commit* terakhir tanpa membuat *commit* baru.
+* **Cara**: Lakukan perbaikan -> `git add .` -> `git commit --amend --no-edit`.
+
+### Rebase: Meluruskan Riwayat
+* **Tujuan**: Memindahkan titik awal sebuah *branch* ke ujung *branch* lain (`main`) untuk menciptakan riwayat yang lurus.
+* **Cara**: `git checkout feature-branch` -> `git rebase main`.
+
+### Squash: Meringkas Riwayat
+* **Tujuan**: Menggabungkan beberapa *commit* kecil menjadi satu *commit* tunggal yang rapi.
+* **Cara**: `git checkout main` -> `git merge --squash feature-branch` -> `git commit -m "Pesan baru"`.
+
+---
+
+## 5. Bekerja dengan Remote (GitHub)
 
 | Perintah | Penjelasan |
 | :--- | :--- |
-| `git clone <url>` | Mengunduh salinan repositori dari remote ke lokal. |
-| `git push origin <branch>` | [cite_start]Mengirim *commit* dari *branch* lokal ke remote. [cite: 1] |
-| `git pull origin <branch>` | [cite_start]Mengambil (`fetch`) perubahan dari remote DAN langsung menggabungkannya (`merge`). [cite: 1] |
-| `git fetch origin` | Hanya mengambil perubahan dari remote tanpa menggabungkannya ke *branch* kerja Anda. |
-
-### Mengakses Branch Remote Baru
-1.  `git fetch origin`: Ambil semua informasi terbaru dari remote.
-2.  `git checkout <nama-branch-baru>`: Git akan otomatis membuat *branch* lokal yang terhubung ke *branch* remote tersebut.
+| `git fetch origin` | **Mengunduh** data baru dari remote, **tidak mengubah** *branch* lokal. |
+| `git pull origin <branch>` | **Mengunduh (fetch) DAN menggabungkan (merge)** dalam satu langkah. |
+| `git push origin <branch>` | **Mengirim** *commit* dari lokal ke remote. |
 
 ---
 
-## Memperbaiki & Menyimpan Sementara
-
-### Memperbaiki Commit Terakhir (`--amend`)
-Digunakan untuk merevisi *commit* terakhir jika ada yang ketinggalan atau salah ketik. [cite_start]**Peringatan**: Jangan gunakan pada *commit* yang sudah di-*push*. [cite: 1]
-```bash
-# Lakukan perbaikan pada file
-git add <file-yang-diperbaiki>
-git commit --amend --no-edit
-```
-
-### Menyimpan Pekerjaan Sementara (`stash`)
+## 6. Menyimpan Sementara (`stash`)
 Menyimpan perubahan yang belum selesai tanpa perlu *commit*.
+
 | Perintah | Penjelasan |
 | :--- | :--- |
 | `git stash` | Menyimpan perubahan pada file yang sudah di-*track*. |
-| `git stash -u` | Menyimpan perubahan, termasuk file baru yang belum di-*track* (*untracked*). |
-| `git stash list` | Menampilkan semua daftar simpanan. |
+| `git stash -u` | Menyimpan perubahan, termasuk file baru (*untracked*). |
+| `git stash list` | Menampilkan daftar simpanan. |
 | `git stash pop` | Menerapkan simpanan terakhir dan menghapusnya dari daftar. |
-| `git stash apply <nama>` | Menerapkan simpanan spesifik tanpa menghapusnya dari daftar. |
-| `git stash drop <nama>` | Menghapus simpanan spesifik dari daftar. |
+| `git stash apply <nama>` | Menerapkan simpanan spesifik tanpa menghapusnya. |
 
 ---
 
-## Praktik Terbaik (Best Practices)
-* **Commit Sering, Push Saat Siap**: Lakukan `commit` secara lokal sesering mungkin untuk menyimpan progres. Lakukan `push` ketika sebuah fitur sudah selesai atau di akhir hari kerja.
-* **Satu Commit, Satu Perubahan Logis**: Usahakan setiap *commit* mewakili satu perubahan yang utuh dan logis (misal: "Menambahkan Fitur A"). Ini membuat riwayat proyek mudah dibaca dan dikelola.
+## 7. Ekosistem & Kolaborasi GitHub
+
+* **Dokumentasi Proyek**: File penting seperti `README.md` (info proyek), `CONTRIBUTING.md` (panduan kontribusi), `LICENSE` (lisensi), dan `CHANGELOG.md` (riwayat perubahan).
+* **GitHub Wikis**: Tempat untuk dokumentasi proyek yang lebih luas seperti panduan pengguna, FAQ, dll.
+* **GitHub API (REST & GraphQL)**: "Jembatan" yang memungkinkan aplikasi/skrip Anda berinteraksi dengan data GitHub secara otomatis.
+* **Webhooks**: Mekanisme notifikasi otomatis. "Jika X terjadi, beri tahu aplikasi saya." Contoh: Memicu *deployment* saat ada *push* baru.
+* **GitHub Apps**: Aplikasi pihak ketiga yang berintegrasi dengan GitHub untuk mengotomatiskan tugas dan memperluas fungsionalitas.
