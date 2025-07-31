@@ -1,4 +1,4 @@
-# Catatan Singkat Git (Git Cheatsheet)
+# Catatan Singkat Git (Git Cheatsheet) untuk Belajar
 
 Dokumen ini berisi rangkuman perintah dan konsep penting Git yang telah kita diskusikan, dirancang untuk menjadi referensi cepat.
 
